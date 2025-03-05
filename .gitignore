@@ -1,3 +1,10 @@
+# Text documents
+*.txt
+
+# Word documents
+*.docx
+*.tmp
+
 # Compiled class file
 *.class
 
