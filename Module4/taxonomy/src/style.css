@@ -35,32 +35,38 @@ h1 {
   line-height: 1.1;
 }
 
-#app {
+svg {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vanilla:hover {
-  filter: drop-shadow(0 0 2em #f7df1eaa);
+.node circle {
+  fill: white;
+  stroke: black;
+  stroke-width: 2px;
+  cursor: pointer;
 }
 
-.card {
-  padding: 2em;
+text {
+  fill: white;
+  font-size: 24px;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-.read-the-docs {
-  color: #888;
+.node text {
+  cursor: pointer;
+}
+
+.link {
+  fill: none;
+  stroke: mediumpurple;
+  stroke-width: 2px;
+}
+
+dialog p {
+  white-space: pre-line;
 }
 
 button {
@@ -92,5 +98,8 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+  text {
+    fill: black;
   }
 }

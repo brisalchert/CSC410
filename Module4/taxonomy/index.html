@@ -5,9 +5,14 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
   </head>
   <body>
-    <div id="app"></div>
+    <svg width="800" height="600"></svg>
+    <dialog id="dialog">
+      <p id="dialog-text"></p>
+      <button id="dialog-close" onclick="dialog.close()">Close Frame</button>
+    </dialog>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

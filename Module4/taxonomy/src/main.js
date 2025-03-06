@@ -1,27 +1,4 @@
 import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import {setupCounter} from './counter.js'
-
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
-
-setupCounter(document.querySelector('#counter'))
 
 class Frame {
   constructor(name, superset, attributes = {}) {
@@ -31,7 +8,7 @@ class Frame {
     // Assign superset if applicable
     if (superset != null) {
       this.superset = superset;
-      superset.subsets.push(name)
+      superset.subsets.push(this)
     } else {
       this.superset = null;
     }
@@ -62,7 +39,7 @@ class Frame {
 
     result += `Frame: ${this.name}\n`;
     result += `Superset: ${(this.superset != null ? this.superset.name : null)}\n`; // Check for superset first
-    result += `Subsets: ${(this.subsets.length !== 0 ? this.subsets : null)}\n` // Check for subsets first
+    result += `Subsets: ${(this.subsets.length !== 0 ? this.subsets.map(set => set.name) : null)}\n` // Check for subsets first
     result += `Inherited attributes: ${JSON.stringify(this.inheritedAttributes)}\n`;
     result += `Attributes: ${JSON.stringify(this.attributes)}`
 
@@ -86,4 +63,59 @@ const ostrich = new Frame("Ostrich", bird, {
   runs: true
 });
 
-console.log(ostrich.toString());
+const canary = new Frame("Canary", bird, {
+  small: true
+});
+
+// Construct the semantic network
+framesToTree(animal)
+
+function framesToTree(rootFrame) {
+  const width = 800, height = 600;
+  const svg = d3.select("svg"), g = svg.append("g").attr("transform", "translate(100, 50)");
+
+  // Create the hierarchy data
+  const root = d3.hierarchy(rootFrame, d => d.subsets);
+  const treeLayout = d3.tree().size([width - 200, height - 200]);
+  treeLayout(root)
+
+  // Set up links between nodes
+  g.selectAll(".link")
+    .data(root.links())
+    .enter()
+    .append("path")
+    .attr("class", "link")
+    .attr("d", d3.linkVertical()
+      .x(d => d.x)
+      .y(d => d.y)
+    );
+
+  // Create nodes
+  const nodes = g.selectAll(".node")
+    .data(root.descendants())
+    .enter()
+    .append("g")
+    .attr("class", "node")
+    .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+  // Add circles for nodes
+  nodes.append("circle").attr("r", 10);
+
+  // Add text labels
+  nodes.append("text")
+    .attr("dy", ".35em")
+    .attr("x", d => (d.subsets ? -15 : 15))
+    .style("text-anchor", d => (d.subsets ? "end" : "start"))
+    .text(d => d.data.name);
+
+  // Add click event listener
+  nodes.on("click", (event, d) => {
+    showFrame(d.data);
+  });
+}
+
+function showFrame(frame) {
+  const dialog = document.querySelector("#dialog");
+  document.querySelector("#dialog-text").textContent = frame;
+  dialog.showModal();
+}
