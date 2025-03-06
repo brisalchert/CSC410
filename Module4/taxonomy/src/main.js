@@ -66,44 +66,84 @@ class Frame {
   }
 }
 
-const animal = new Frame("Animal", null, {
-  hasSkin: "Yes",
-  hasEyes: "Yes"
+const instrument = new Frame("Instrument", null, {
+  makesSound: "Yes",
 });
 
-const fish = new Frame("Fish", animal, {
-  canSwim: "Yes",
-  hasScales: "Yes",
-  floats: "Yes"
-})
-
-const shark = new Frame("Shark", fish, {
-  canBite: "Yes",
-  isApex: "Yes",
-  floats: "No"
-})
-
-const salmon = new Frame("Salmon", fish, {
-  isEdible: "Yes",
-  freshwater: "Yes"
-})
-
-const bird = new Frame("Bird", animal, {
-  flies: "Yes",
-  hasBeak: "Yes"
+const strings = new Frame("Strings", instrument, {
+  numStrings: "4 (Default)",
+  acoustic: "Yes",
+  bowed: "Yes"
 });
 
-const ostrich = new Frame("Ostrich", bird, {
-  flies: "No",
-  runs: "Yes"
+const woodwinds  = new Frame("Woodwinds", instrument, {
+  mechanics: "Keys",
+  hasReed: "Yes",
+  playedBy: "Blowing"
 });
 
-const canary = new Frame("Canary", bird, {
-  small: "Yes"
+const brass = new Frame("Brass", instrument, {
+  mechanics: "Valves",
+  playedBy: "Blowing"
+});
+
+const percussion = new Frame("Percussion", instrument, {
+  usesMallet: "Yes",
+  playedBy: "Hitting"
+});
+
+const guitar = new Frame("Guitar", strings, {
+  numStrings: "6",
+  bowed: "No",
+  frets: "Has"
+});
+
+const electricGuitar = new Frame("Electric Guitar", guitar, {
+  acoustic: "No"
+})
+
+const violin = new Frame("Violin", strings, {
+  restPosition: "Shoulder"
+});
+
+const doubleBass = new Frame("Double Bass", strings, {
+  restPosition: "Hip"
+});
+
+const oboe = new Frame("Oboe", woodwinds, {
+  material: "Wood",
+  needsTuning: "No"
+});
+
+const flute = new Frame("Flute", woodwinds, {
+  hasReed: "No",
+  material: "Metal"
+})
+
+const trumpet = new Frame("Trumpet", brass, {
+  numValves: "3"
+});
+
+const trombone = new Frame("Trombone", brass, {
+  mechanics: "Slide"
+});
+
+const drums = new Frame("Drums", percussion, {
+  numCymbals: "4 (Default)"
+});
+
+const piano = new Frame("Piano", percussion, {
+  usesMallet: "No",
+  numKeys: "81 (Default)"
+});
+
+const timpani = new Frame("Timpani", drums, {
+  numCymbals: "0",
+  numKettleDrums: "4"
 });
 
 // Construct the semantic network
-framesToTree(animal)
+framesToTree(instrument)
 
 function framesToTree(rootFrame) {
   // Create a group for the tree
@@ -113,7 +153,7 @@ function framesToTree(rootFrame) {
   // Create the hierarchy data
   const root = d3.hierarchy(rootFrame, d => d.subsets);
   const treeLayout = d3.tree()
-    .size([width - 200, height - 200])
+    .size([width - 100, height - 100])
     .separation((a, b) => (a.parent === b.parent ? 2 : 3));
   treeLayout(root)
 
