@@ -37,11 +37,30 @@ class Frame {
   toString() {
     let result = "";
 
-    result += `Frame: ${this.name}\n`;
-    result += `Superset: ${(this.superset != null ? this.superset.name : null)}\n`; // Check for superset first
-    result += `Subsets: ${(this.subsets.length !== 0 ? this.subsets.map(set => set.name) : null)}\n` // Check for subsets first
-    result += `Inherited attributes: ${JSON.stringify(this.inheritedAttributes)}\n`;
-    result += `Attributes: ${JSON.stringify(this.attributes)}`
+    result += `Frame: ${this.name}\n\n`;
+    result += `Superset: ${(this.superset != null ? this.superset.name : "None")}\n\n`; // Check for superset first
+    result += `Subsets: ${(this.subsets.length !== 0 ? this.subsets.map(set => set.name).join(", ") : "None")}\n\n` // Check for subsets first
+    result += "Inherited Attributes:\n";
+
+    // List inherited attributes if applicable
+    if (this.inheritedAttributes != null && Object.keys(this.inheritedAttributes).length > 0) {
+      result += Object.entries(this.inheritedAttributes).map(
+        ([key, value]) => `\t${key}: ${value}`
+      ).join("\n") + "\n\n";
+    } else {
+      result += "\tNone\n\n";
+    }
+
+    result += "Unique Attributes:\n"
+
+    // List attributes if specified
+    if (this.attributes != null && Object.keys(this.attributes).length > 0) {
+      result += Object.entries(this.attributes).map(
+        ([key, value]) => `\t${key}: ${value}`
+      ).join("\n") + "\n\n";
+    } else {
+      result += "\tNone\n\n";
+    }
 
     return result;
   }
@@ -52,6 +71,23 @@ const animal = new Frame("Animal", null, {
   hasEyes: true,
   coldBlooded: false
 });
+
+const fish = new Frame("Fish", animal, {
+  canSwim: true,
+  hasScales: true,
+  floats: true
+})
+
+const shark = new Frame("Shark", fish, {
+  canBite: true,
+  isApex: true,
+  floats: false
+})
+
+const salmon = new Frame("Salmon", fish, {
+  isEdible: true,
+  freshwater: true
+})
 
 const bird = new Frame("Bird", animal, {
   flies: true,
@@ -71,15 +107,25 @@ const canary = new Frame("Canary", bird, {
 framesToTree(animal)
 
 function framesToTree(rootFrame) {
-  const width = 800, height = 600;
-  const svg = d3.select("svg"), g = svg.append("g").attr("transform", "translate(100, 50)");
+  // Create a group for the tree
+  const svg = d3.select("svg"), g = svg.append("g");
+  const width = svg.attr("width"), height = svg.attr("height");
 
   // Create the hierarchy data
   const root = d3.hierarchy(rootFrame, d => d.subsets);
-  const treeLayout = d3.tree().size([width - 200, height - 200]);
+  const treeLayout = d3.tree()
+    .size([width - 200, height - 200])
+    .separation((a, b) => (a.parent === b.parent ? 2 : 3));
   treeLayout(root)
 
-  // Set up links between nodes
+  // Center tree horizontally
+  const centerX = width / 2;
+  const rootX = root.x;
+  const offsetX = centerX - root.x;
+
+  g.attr("transform", `translate(${offsetX}, 50)`);
+
+    // Set up links between nodes
   g.selectAll(".link")
     .data(root.links())
     .enter()
