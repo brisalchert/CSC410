@@ -1,7 +1,7 @@
 import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import {setupCounter} from './counter.js'
 
 document.querySelector('#app').innerHTML = `
   <div>
@@ -22,3 +22,65 @@ document.querySelector('#app').innerHTML = `
 `
 
 setupCounter(document.querySelector('#counter'))
+
+class Frame {
+  constructor(name, superset, attributes = {}) {
+    this.name = name
+
+    // Assign superset if applicable
+    if (superset != null) {
+      this.superset = superset;
+    } else {
+      this.superset = null;
+    }
+
+    // Assign inherited attributes
+    if (this.superset != null) {
+      this.inheritedAttributes = {...superset.inheritedAttributes, ...superset.attributes};
+    } else {
+      this.inheritedAttributes = null;
+    }
+
+    // Assign unique attributes
+    this.attributes = attributes;
+
+    // Override inherited attributes if necessary
+    if (this.inheritedAttributes != null) {
+      // Filter out overridden attributes
+      this.inheritedAttributes = Object.fromEntries(
+        Object.entries({...this.inheritedAttributes}).filter(([key]) =>
+          !(key in this.inheritedAttributes && key in this.attributes)
+        )
+      );
+    }
+  }
+
+  toString() {
+    let result = "";
+
+    result += `Frame: ${this.name}\n`;
+    result += `Superclass: ${(this.superset != null ? this.superset.name : null)}\n`;
+    result += `Inherited attributes: ${JSON.stringify(this.inheritedAttributes)}\n`;
+    result += `Attributes: ${JSON.stringify(this.attributes)}`
+
+    return result;
+  }
+}
+
+const animal = new Frame("Animal", null, {
+  hasSkin: true,
+  hasEyes: true,
+  coldBlooded: false
+});
+
+const bird = new Frame("Bird", animal, {
+  flies: true,
+  hasBeak: true
+});
+
+const ostrich = new Frame("Ostrich", bird, {
+  flies: false,
+  runs: true
+});
+
+console.log(ostrich.toString());
