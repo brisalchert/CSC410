@@ -142,6 +142,15 @@ const timpani = new Frame("Timpani", drums, {
   numKettleDrums: "4"
 });
 
+const stratocaster = new Frame("Fender Stratocaster", electricGuitar, {
+  color: "Candy Cola",
+  fingerboard: "Indian Laurel"
+});
+
+const yamahaTrumpet = new Frame("Yamaha Trumpet", trumpet, {
+  tuning: "Bb"
+});
+
 // Construct the semantic network
 framesToTree(instrument)
 
