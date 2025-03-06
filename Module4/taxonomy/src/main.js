@@ -33,37 +33,6 @@ class Frame {
       );
     }
   }
-
-  toString() {
-    let result = "";
-
-    result += `Frame: ${this.name}\n\n`;
-    result += `Superset: ${(this.superset != null ? this.superset.name : "None")}\n\n`; // Check for superset first
-    result += `Subsets: ${(this.subsets.length !== 0 ? this.subsets.map(set => set.name).join(", ") : "None")}\n\n` // Check for subsets first
-    result += "Inherited Attributes:\n";
-
-    // List inherited attributes if applicable
-    if (this.inheritedAttributes != null && Object.keys(this.inheritedAttributes).length > 0) {
-      result += Object.entries(this.inheritedAttributes).map(
-        ([key, value]) => `\t${key}: ${value}`
-      ).join("\n") + "\n\n";
-    } else {
-      result += "\tNone\n\n";
-    }
-
-    result += "Unique Attributes:\n"
-
-    // List attributes if specified
-    if (this.attributes != null && Object.keys(this.attributes).length > 0) {
-      result += Object.entries(this.attributes).map(
-        ([key, value]) => `\t${key}: ${value}`
-      ).join("\n") + "\n\n";
-    } else {
-      result += "\tNone\n\n";
-    }
-
-    return result;
-  }
 }
 
 const instrument = new Frame("Instrument", null, {
