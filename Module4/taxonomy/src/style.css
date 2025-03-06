@@ -88,6 +88,14 @@ td {
   padding: 8px 10px;
 }
 
+th[scope="col"] {
+  border: 3px solid white;
+}
+
+th[scope="row"] {
+  text-align: left;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -120,5 +128,15 @@ button:focus-visible {
   }
   text {
     fill: black;
+  }
+  dialog table {
+    border: 2px solid black;
+  }
+  th,
+  td {
+    border: 1px solid black;
+  }
+  th[scope="col"] {
+    border: 3px solid black;
   }
 }

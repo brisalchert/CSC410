@@ -67,40 +67,39 @@ class Frame {
 }
 
 const animal = new Frame("Animal", null, {
-  hasSkin: true,
-  hasEyes: true,
-  coldBlooded: false
+  hasSkin: "Yes",
+  hasEyes: "Yes"
 });
 
 const fish = new Frame("Fish", animal, {
-  canSwim: true,
-  hasScales: true,
-  floats: true
+  canSwim: "Yes",
+  hasScales: "Yes",
+  floats: "Yes"
 })
 
 const shark = new Frame("Shark", fish, {
-  canBite: true,
-  isApex: true,
-  floats: false
+  canBite: "Yes",
+  isApex: "Yes",
+  floats: "No"
 })
 
 const salmon = new Frame("Salmon", fish, {
-  isEdible: true,
-  freshwater: true
+  isEdible: "Yes",
+  freshwater: "Yes"
 })
 
 const bird = new Frame("Bird", animal, {
-  flies: true,
-  hasBeak: true
+  flies: "Yes",
+  hasBeak: "Yes"
 });
 
 const ostrich = new Frame("Ostrich", bird, {
-  flies: false,
-  runs: true
+  flies: "No",
+  runs: "Yes"
 });
 
 const canary = new Frame("Canary", bird, {
-  small: true
+  small: "Yes"
 });
 
 // Construct the semantic network
