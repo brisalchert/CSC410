@@ -11,7 +11,18 @@
     <h1>Taxonomy with a Semantic Network</h1>
     <svg width="1280" height="720"></svg>
     <dialog id="dialog">
-      <p id="dialog-text"></p>
+      <p id="dialog-title"></p>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody id="dialog-table-body">
+
+        </tbody>
+      </table>
       <button id="dialog-close" onclick="dialog.close()">Close Frame</button>
     </dialog>
     <script type="module" src="/src/main.js"></script>

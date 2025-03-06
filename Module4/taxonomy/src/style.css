@@ -73,6 +73,19 @@ dialog {
 
 dialog p {
   white-space: pre-wrap;
+  font-weight: bold;
+}
+
+dialog table {
+  border: 2px solid white;
+  border-collapse: collapse;
+  margin: 20px;
+}
+
+th,
+td {
+  border: 1px solid white;
+  padding: 8px 10px;
 }
 
 button {

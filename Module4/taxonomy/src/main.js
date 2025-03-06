@@ -26,7 +26,6 @@ class Frame {
     // Override inherited attributes if necessary
     if (this.inheritedAttributes != null) {
       // Filter out overridden attributes
-      // TODO: Create a "Property" class for properly displaying attributes for a frame
       this.inheritedAttributes = Object.fromEntries(
         Object.entries({...this.inheritedAttributes}).filter(([key]) =>
           !(key in this.inheritedAttributes && key in this.attributes)
@@ -66,8 +65,6 @@ class Frame {
     return result;
   }
 }
-
-// TODO: Create an "Entity" class for instances of a particular set
 
 const animal = new Frame("Animal", null, {
   hasSkin: true,
@@ -123,9 +120,7 @@ function framesToTree(rootFrame) {
 
   // Center tree horizontally
   const centerX = width / 2;
-  const rootX = root.x;
   const offsetX = centerX - root.x;
-
   g.attr("transform", `translate(${offsetX}, 50)`);
 
     // Set up links between nodes
@@ -165,6 +160,30 @@ function framesToTree(rootFrame) {
 
 function showFrame(frame) {
   const dialog = document.querySelector("#dialog");
-  document.querySelector("#dialog-text").textContent = frame;
+  document.querySelector("#dialog-title").textContent = `Frame: ${frame.name}`;
+  const tableBody = document.querySelector("#dialog-table-body");
+
+  // Clear the table
+  tableBody.innerHTML = "";
+
+  // Add frame attributes to the table
+  tableBody.innerHTML += `<tr><th scope="row">Name</th><td>${frame.name}</td></tr>`;
+  if (frame.superset != null) {
+    tableBody.innerHTML += `<tr><th scope="row">Superset</th><td>${frame.superset.name}</td></tr>`;
+  }
+  if (frame.subsets != null && frame.subsets.length > 0) {
+    tableBody.innerHTML += `<tr><th scope="row">Subsets</th><td>${frame.subsets.map(set => set.name).join(", ")}</td></tr>`;
+  }
+  if (frame.inheritedAttributes != null) {
+    Object.keys(frame.inheritedAttributes).forEach(key => {
+      tableBody.innerHTML += `<tr><th scope="row">${key}</th><td>${frame.inheritedAttributes[key]}</td></tr>`;
+    })
+  }
+  if (frame.attributes != null) {
+    Object.keys(frame.attributes).forEach(key => {
+      tableBody.innerHTML += `<tr><th scope="row">${key}</th><td>${frame.attributes[key]}</td></tr>`;
+    })
+  }
+
   dialog.showModal();
 }
