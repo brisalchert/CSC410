@@ -26,10 +26,12 @@ setupCounter(document.querySelector('#counter'))
 class Frame {
   constructor(name, superset, attributes = {}) {
     this.name = name
+    this.subsets = []
 
     // Assign superset if applicable
     if (superset != null) {
       this.superset = superset;
+      superset.subsets.push(name)
     } else {
       this.superset = null;
     }
@@ -59,7 +61,8 @@ class Frame {
     let result = "";
 
     result += `Frame: ${this.name}\n`;
-    result += `Superclass: ${(this.superset != null ? this.superset.name : null)}\n`;
+    result += `Superset: ${(this.superset != null ? this.superset.name : null)}\n`; // Check for superset first
+    result += `Subsets: ${(this.subsets.length !== 0 ? this.subsets : null)}\n` // Check for subsets first
     result += `Inherited attributes: ${JSON.stringify(this.inheritedAttributes)}\n`;
     result += `Attributes: ${JSON.stringify(this.attributes)}`
 
