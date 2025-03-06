@@ -26,6 +26,7 @@ class Frame {
     // Override inherited attributes if necessary
     if (this.inheritedAttributes != null) {
       // Filter out overridden attributes
+      // TODO: Create a "Property" class for properly displaying attributes for a frame
       this.inheritedAttributes = Object.fromEntries(
         Object.entries({...this.inheritedAttributes}).filter(([key]) =>
           !(key in this.inheritedAttributes && key in this.attributes)
@@ -65,6 +66,8 @@ class Frame {
     return result;
   }
 }
+
+// TODO: Create an "Entity" class for instances of a particular set
 
 const animal = new Frame("Animal", null, {
   hasSkin: true,
