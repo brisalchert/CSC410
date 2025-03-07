@@ -8,7 +8,7 @@ class Frame {
     // Assign superset if applicable
     if (superset != null) {
       this.superset = superset;
-      superset.subsets.push(this)
+      superset.subsets.push(this) // Add subset to superset
     } else {
       this.superset = null;
     }
@@ -34,6 +34,8 @@ class Frame {
     }
   }
 }
+
+// Initialize each frame in the hierarchy
 
 const instrument = new Frame("Instrument", null, {
   makesSound: "Yes",
@@ -202,5 +204,6 @@ function showFrame(frame) {
     })
   }
 
+  // Show the frame modal
   dialog.showModal();
 }
